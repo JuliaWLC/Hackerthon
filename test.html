@@ -32,23 +32,23 @@
   <button id="book-btn">Book Selected Seats</button>
 
   <script>
-    const seatNames = [
-      { key: 1, name: "如心廣場總站" },
-      { key: 2, name: "大涌道福來邨" },
-      { key: 3, name: "荃灣(愉景新城)" },
-      { key: 4, name: "荃灣站" },
-      { key: 5, name: "眾安街" },
-      { key: 6, name: "綠楊新邨" },
-      { key: 7, name: "悅來酒店" },
-      { key: 8, name: "荃灣聯仁街" },
-      { key: 9, name: "荃灣馬頭壩道" },
-      { key: 10, name: "荃灣龍德街" },
-      { key: 11, name: "長安總站" },
-      { key: 12, name: "青嶼幹線巴士轉乘站" },
-      { key: 13, name: "機場(1號客運大樓)" },
-      { key: 14, name: "機場博覽館" },
-      { key: 15, name: "香港天際萬豪酒店" }
-    ];
+const seatNames = [
+  { key: 1, name: "如心廣場總站" },
+  { key: 2, name: "大涌道福來邨" },
+  { key: 3, name: "荃灣(愉景新城)" },
+  { key: 4, name: "荃灣站" },
+  { key: 5, name: "眾安街" },
+  { key: 6, name: "綠楊新邨" },
+  { key: 7, name: "悅來酒店" },
+  { key: 8, name: "荃灣聯仁街" },
+  { key: 9, name: "荃灣馬頭壩道" },
+  { key: 10, name: "荃灣龍德街" },
+  { key: 11, name: "長安總站" },
+  { key: 12, name: "青嶼幹線巴士轉乘站" },
+  { key: 13, name: "機場(1號客運大樓)" },
+  { key: 14, name: "機場博覽館" },
+  { key: 15, name: "香港天際萬豪酒店" }
+];
     const bookedSeats = new Set();
     let firstSelectedKey = null;
     let lastSelectedKey = null;
