@@ -15,19 +15,17 @@ function selectBus() {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "確定",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "success",
+          title: "己為你預留坐位",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(    setTimeout(() => {
+          window.location = "./bookingBusStop.html";
+        }, 1501))
+      }
     })
-      .then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            icon: "success",
-            title: "己為你預留坐位",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      })
-      .then(
-          window.location = "./showBooking.html"
-      );
   });
 }

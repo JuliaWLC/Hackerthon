@@ -1,4 +1,5 @@
 window.onload = () => {
+  success() ;
 }
 
 function success() {
