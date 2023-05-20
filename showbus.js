@@ -27,9 +27,7 @@ function selectBus() {
         }
       })
       .then(
-        setTimeout(() => {
-          window.location = "./showBooking.html";
-        }, 1501)
+          window.location = "./showBooking.html"
       );
   });
 }
