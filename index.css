@@ -450,3 +450,22 @@ p.copyright {
     color: #ae782e;
   }
 }
+
+
+.seat {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    border: 1px solid black;
+    margin: 5px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+  }
+  .booked {
+    background-color: red;
+    cursor: not-allowed;
+  }
+  .selected {
+    background-color: yellow;
+  }
