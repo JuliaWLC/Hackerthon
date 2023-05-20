@@ -47,16 +47,16 @@
       </div>
     </div>
   </div>
-  <select class="pick-up-route" name="pickUpRoute">
+  <!-- <select class="pick-up-route" name="pickUpRoute">
     <option value="" disabled>巴士號碼</option>
     <option value="A31">A31</option>
-    <!-- <option value="東區">東區</option> -->
-  </select>
-  <h1>Seat Booking System</h1>
+    <option value="東區">東區</option> -->
+  <!-- </select> -->
+  <h1>訂位系統</h1>
   <div id="seats-container">
     <!-- Seats will be dynamically generated here -->
   </div>
-  <button id="book-btn">Book Selected Seats</button>
+  <button id="book-btn">選擇上落車站</button>
 
   <script>
     const seatNames = [
@@ -177,6 +177,7 @@
     const bookButton = document.getElementById('book-btn');
     bookButton.addEventListener('click', bookSelectedSeats);
   </script>
+    <!-- <script src="./index.js"></script> -->
 </body>
 
 </html>

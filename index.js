@@ -2,21 +2,21 @@ window.onload = () => {
   createSeats();
 };
 
-// function success() {
-//   document.querySelector(".submit-btn").addEventListener("click", (e) => {
-//     e.preventDefault();
-//     console.log("triggered");
-//     Swal.fire({
-//       icon: "success",
-//       title: "Submitted",
-//       showConfirmButton: false,
-//       timer: 1500,
-//     });
-//     setTimeout(() => {
-//       window.location = "./showbus.html";
-//     }, 1501);
-//   });
-// }
+function success() {
+  document.querySelector(".submit-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log("triggered");
+    Swal.fire({
+      icon: "success",
+      title: "Submitted",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    setTimeout(() => {
+      window.location = "./showbus.html";
+    }, 1501);
+  });
+}
 
 const seatNames = [
   { key: 1, name: "如心廣場總站" },
