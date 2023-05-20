@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Booking System</title>
+  <title>Cinema Ticket Booking System</title>
   <style>
     .seat {
       display: inline-block;
@@ -32,8 +32,8 @@
   <script>
     const totalSeats = 30;
     const bookedSeats = new Set();
-    let firstSeatClicked = null;
-    let lastSeatClicked = null;
+    let firstSelectedSeat = null;
+    let lastSelectedSeat = null;
 
     function createSeatElement(seatNumber) {
       const seat = document.createElement('div');
@@ -42,9 +42,18 @@
       seat.addEventListener('click', function() {
         if (bookedSeats.has(seatNumber)) {
           console.log('This seat is already booked. Please choose another one.');
-        } else {
-          handleSeatSelection(seatNumber);
+          return;
         }
+
+        if (firstSelectedSeat && !lastSelectedSeat) {
+          lastSelectedSeat = seat;
+          markSeatsInRange();
+        } else {
+          resetSelection();
+          firstSelectedSeat = seat;
+        }
+
+        seat.classList.toggle('selected');
       });
       return seat;
     }
@@ -57,28 +66,22 @@
       }
     }
 
-    function handleSeatSelection(seatNumber) {
-      if (firstSeatClicked === null) {
-        firstSeatClicked = seatNumber;
-        document.getElementById(`seat-${firstSeatClicked}`).classList.add('selected');
-      } else if (lastSeatClicked === null && seatNumber !== firstSeatClicked) {
-        lastSeatClicked = seatNumber;
-        document.getElementById(`seat-${lastSeatClicked}`).classList.add('selected');
-        selectSeatsInRange(firstSeatClicked, lastSeatClicked);
-      } else {
-        clearSelectedSeats();
-        firstSeatClicked = seatNumber;
-        document.getElementById(`seat-${firstSeatClicked}`).classList.add('selected');
-      }
-    }
+    function markSeatsInRange() {
+      if (firstSelectedSeat && lastSelectedSeat) {
+        const seats = document.getElementsByClassName('seat');
+        let isWithinRange = false;
 
-    function selectSeatsInRange(startSeat, endSeat) {
-      const seats = document.getElementsByClassName('seat');
-      const startIndex = Math.min(startSeat, endSeat);
-      const endIndex = Math.max(startSeat, endSeat);
+        for (let i = 0; i < seats.length; i++) {
+          const seat = seats[i];
 
-      for (let i = startIndex + 1; i < endIndex; i++) {
-        seats[i - 1].classList.add('selected');
+          if (seat === firstSelectedSeat || seat === lastSelectedSeat) {
+            isWithinRange = !isWithinRange;
+          }
+
+          if (isWithinRange) {
+            seat.classList.add('selected');
+          }
+        }
       }
     }
 
@@ -99,13 +102,13 @@
 
       console.log('Selected seats booked successfully.');
       // Reset selected seats after booking
-      clearSelectedSeats();
+      resetSelection();
     }
 
-    function clearSelectedSeats() {
+    function resetSelection() {
+      firstSelectedSeat = null;
+      lastSelectedSeat = null;
       const selectedSeats = document.getElementsByClassName('selected');
-      firstSeatClicked = null;
-      lastSeatClicked = null;
       while (selectedSeats.length > 0) {
         selectedSeats[0].classList.remove('selected');
       }
