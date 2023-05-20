@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking System</title>
+  <style>
+    .seat {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+      margin: 5px;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+    }
+    .booked {
+      background-color: red;
+      cursor: not-allowed;
+    }
+    .selected {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cinema Ticket Booking System</h1>
+  <div id="seats-container">
+    <!-- Seats will be dynamically generated here -->
+  </div>
+  <button id="book-btn">Book Selected Seats</button>
+
+  <script>
+    const totalSeats = 30;
+    const bookedSeats = new Set();
+    let firstSeatClicked = null;
+    let lastSeatClicked = null;
+
+    function createSeatElement(seatNumber) {
+      const seat = document.createElement('div');
+      seat.className = 'seat';
+      seat.innerText = seatNumber;
+      seat.addEventListener('click', function() {
+        if (bookedSeats.has(seatNumber)) {
+          console.log('This seat is already booked. Please choose another one.');
+        } else {
+          handleSeatSelection(seatNumber);
+        }
+      });
+      return seat;
+    }
+
+    function createSeats() {
+      const seatsContainer = document.getElementById('seats-container');
+      for (let i = 1; i <= totalSeats; i++) {
+        const seat = createSeatElement(i);
+        seatsContainer.appendChild(seat);
+      }
+    }
+
+    function handleSeatSelection(seatNumber) {
+      if (firstSeatClicked === null) {
+        firstSeatClicked = seatNumber;
+        document.getElementById(`seat-${firstSeatClicked}`).classList.add('selected');
+      } else if (lastSeatClicked === null && seatNumber !== firstSeatClicked) {
+        lastSeatClicked = seatNumber;
+        document.getElementById(`seat-${lastSeatClicked}`).classList.add('selected');
+        selectSeatsInRange(firstSeatClicked, lastSeatClicked);
+      } else {
+        clearSelectedSeats();
+        firstSeatClicked = seatNumber;
+        document.getElementById(`seat-${firstSeatClicked}`).classList.add('selected');
+      }
+    }
+
+    function selectSeatsInRange(startSeat, endSeat) {
+      const seats = document.getElementsByClassName('seat');
+      const startIndex = Math.min(startSeat, endSeat);
+      const endIndex = Math.max(startSeat, endSeat);
+
+      for (let i = startIndex + 1; i < endIndex; i++) {
+        seats[i - 1].classList.add('selected');
+      }
+    }
+
+    function bookSelectedSeats() {
+      const selectedSeats = document.getElementsByClassName('selected');
+      if (selectedSeats.length === 0) {
+        console.log('No seats selected. Please choose at least one seat.');
+        return;
+      }
+
+      for (let i = 0; i < selectedSeats.length; i++) {
+        const seat = selectedSeats[i];
+        const seatNumber = parseInt(seat.innerText);
+        bookedSeats.add(seatNumber);
+        seat.className = 'seat booked';
+        seat.removeEventListener('click', function() {});
+      }
+
+      console.log('Selected seats booked successfully.');
+      // Reset selected seats after booking
+      clearSelectedSeats();
+    }
+
+    function clearSelectedSeats() {
+      const selectedSeats = document.getElementsByClassName('selected');
+      firstSeatClicked = null;
+      lastSeatClicked = null;
+      while (selectedSeats.length > 0) {
+        selectedSeats[0].classList.remove('selected');
+      }
+    }
+
+    // Create seats when the page loads
+    createSeats();
+
+    // Add event listener to the book button
+    const bookButton = document.getElementById('book-btn');
+    bookButton.addEventListener('click', bookSelectedSeats);
+  </script>
+</body>
+</html>
