@@ -1,6 +1,7 @@
 body {
   background-color: rgb(255, 251, 240);
-  color: rgb(253, 202, 72);
+  font-size: larger;
+  /* color: rgb(253, 202, 72); */
 }
 
 .nav-div {
@@ -49,15 +50,15 @@ body {
 }
 
 .navbar-brand:focus {
-  color: #855614
+  color: #855614;
 }
 
 .navbar-toggler {
-  border:0 ;
+  border: 0;
 }
 
 .navbar-toggler:focus {
-  border:0 ;
+  border: 0;
   box-shadow: none;
 }
 
@@ -121,7 +122,6 @@ p.copyright {
 }
 
 @media only screen and (max-width: 600px) {
-
   footer {
     width: 100vw;
     padding: 10px;
@@ -134,5 +134,30 @@ p.copyright {
     font-size: 10px;
     color: #ae782e;
   }
+}
 
+#book-btn {
+  border-radius: 50px;
+  background-color: #ffaa5b;
+  cursor: pointer;
+  font-size: 18px;
+  color: #fff;
+  border: 0;
+  font-weight: 600;
+  margin: 3vw 0;
+  padding: 8px 4vw;
+  width: fit-content;
+}
+
+.pick-up-route {
+  border-radius: 50px;
+  /* background-color: #ffaa5b; */
+  cursor: pointer;
+  font-size: 18px;
+  /* color: #fff; */
+  border: 5px solid;
+  font-weight: 600;
+  margin: 3vw 0;
+  padding: 8px 4vw;
+  width: fit-content;
 }

@@ -1,84 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>Seat Booking System</title>
+  <link rel="stylesheet" href="./navbar.css" />
+
+  <style>
+    .seat {
+      display: inline-block;
+      width: 200px;
+      height: 50px;
+      border: 1px solid black;
+      margin: 5px;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+    }
+
+    .booked {
+      background-color: red;
+      cursor: not-allowed;
+    }
+
+    .selected {
+      background-color: yellow;
+    }
+  </style>
 </head>
 
+
 <body>
-    <div class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="./usersMain.html"><img class="logo" src="./assets/name.png" alt="logo" /></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
-            </button>
-            <div class="nav-div collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="menu_items nav-link active" style="text-decoration: none" href="./usersMain.html">會員主頁</a>
-                    <a class="menu_items nav-link" style="text-decoration: none" href="./userhistoryorder.html">歷史訂單</a>
-                    <a class="menu_items nav-link" style="text-decoration: none" href="./allorderstatus.html">實時訂單狀態</a>
-                </div>
-                <button id="logout">登出</button>
-            </div>
+  <div class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="./usersMain.html"><img class="logo" src="./assets/name.png" alt="logo" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="nav-div collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="menu_items nav-link active" style="text-decoration: none" href="./usersMain.html">會員主頁</a>
+          <a class="menu_items nav-link" style="text-decoration: none" href="./userhistoryorder.html">歷史訂單</a>
+          <a class="menu_items nav-link" style="text-decoration: none" href="./allorderstatus.html">實時訂單狀態</a>
         </div>
+        <button id="logout">登出</button>
+      </div>
     </div>
-    <div>
-        <select class="pick-up-district" name="pickUpDistrict">
-            <option value="" disabled>巴士號碼</option>
-            <option value="A31">A31</option>
-            <option value="東區">東區</option>
+  </div>
+  <select class="pick-up-route" name="pickUpRoute">
+    <option value="" disabled>巴士號碼</option>
+    <option value="A31">A31</option>
+    <!-- <option value="東區">東區</option> -->
+  </select>
+  <h1>Seat Booking System</h1>
+  <div id="seats-container">
+    <!-- Seats will be dynamically generated here -->
+  </div>
+  <button id="book-btn">Book Selected Seats</button>
 
-        </select>
-        <p>上車站點</p>
-        <select class="pick-up-district" name="pickUpDistrict">
-            <option value="" disabled>途經站點</option>
-            <option value="Nina Tower B/T">如心廣場總站</option>
-            <option value="Fuk Loi Estate Tai Chung Road">大涌道福來邨</option>
-            <option value="Tsuen Wan (Discovery Park) Bus Terminus">荃灣(愉景新城)</option>
-            <option value="Tsuen Wan Station">荃灣站</option>
-            <option value="Chung on Street">眾安街</option>
-            <option value="Luk Yeung Sun Chuen">綠楊新邨</option>
-            <option value="Panda Hotel">悅來酒店</option>
-            <option value="Luen Yan Street Tsuen Wan">荃灣聯仁街</option>
-            <option value="MA Tau Pa Road">荃灣馬頭壩道</option>
-            <option value="Lung Tak Street Tsuen Wan">荃灣龍德街</option>
-            <option value="Cheung on B/T">長安總站</option>
-            <option value=" Lantau Link Bus-Bus Interchange">青嶼幹線巴士轉乘站</option>
-            <option value="Airport Terminal 1">機場(1號客運大樓)</option>
-            <option value="Asiaworld-Expo">機場博覽館 </option>
-            <option value="Hong Kong Skycity">香港天際萬豪酒店</option>
+  <script>
+    const seatNames = [
+      { key: 1, name: "如心廣場總站" },
+      { key: 2, name: "大涌道福來邨" },
+      { key: 3, name: "荃灣(愉景新城)" },
+      { key: 4, name: "荃灣站" },
+      { key: 5, name: "眾安街" },
+      { key: 6, name: "綠楊新邨" },
+      { key: 7, name: "悅來酒店" },
+      { key: 8, name: "荃灣聯仁街" },
+      { key: 9, name: "荃灣馬頭壩道" },
+      { key: 10, name: "荃灣龍德街" },
+      { key: 11, name: "長安總站" },
+      { key: 12, name: "青嶼幹線巴士轉乘站" },
+      { key: 13, name: "機場(1號客運大樓)" },
+      { key: 14, name: "機場博覽館" },
+      { key: 15, name: "香港天際萬豪酒店" }
+    ];
+    const bookedSeats = new Set();
+    let firstSelectedKey = null;
+    let lastSelectedKey = null;
 
-        </select>
-        <p>落車站點</p>
-        <select class="pick-up-district" name="pickUpDistrict">
-            <option value="" disabled>途經站點</option>
-            <option value="Nina Tower B/T">如心廣場總站</option>
-            <option value="Fuk Loi Estate Tai Chung Road">大涌道福來邨</option>
-            <option value="Tsuen Wan (Discovery Park) Bus Terminus">荃灣(愉景新城)</option>
-            <option value="Tsuen Wan Station">荃灣站</option>
-            <option value="Chung on Street">眾安街</option>
-            <option value="Luk Yeung Sun Chuen">綠楊新邨</option>
-            <option value="Panda Hotel">悅來酒店</option>
-            <option value="Luen Yan Street Tsuen Wan">荃灣聯仁街</option>
-            <option value="MA Tau Pa Road">荃灣馬頭壩道</option>
-            <option value="Lung Tak Street Tsuen Wan">荃灣龍德街</option>
-            <option value="Cheung on B/T">長安總站</option>
-            <option value=" Lantau Link Bus-Bus Interchange">青嶼幹線巴士轉乘站</option>
-            <option value="Airport Terminal 1">機場(1號客運大樓)</option>
-            <option value="Asiaworld-Expo">機場博覽館 </option>
-            <option value="Hong Kong Skycity">香港天際萬豪酒店</option>
-        </select>
-        <div class="submit-btn-flex">
-            <input type="submit" value="搜尋" class="submit-btn" />
-        </div>
-    </div>
-    <script src="./index.js"></script>
-    <!-- sweet alert js -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    function createSeatElement(seatName, seatKey) {
+      const seat = document.createElement('div');
+      seat.className = 'seat';
+      seat.innerText = seatName;
+      seat.setAttribute('data-seat-key', seatKey);
+      seat.addEventListener('click', function () {
+        if (bookedSeats.has(seatKey)) {
+          alert('This seat is already booked. Please choose another one.');
+          return;
+        }
+
+        if (firstSelectedKey && !lastSelectedKey) {
+          lastSelectedKey = seatKey;
+          markSeatsInRange();
+        } else {
+          resetSelection();
+          firstSelectedKey = seatKey;
+        }
+
+        seat.classList.toggle('selected');
+      });
+      return seat;
+    }
+
+    function createSeats() {
+      const seatsContainer = document.getElementById('seats-container');
+      for (let i = 0; i < seatNames.length; i++) {
+        const seatName = seatNames[i].name;
+        const seatKey = seatNames[i].key;
+        const seat = createSeatElement(seatName, seatKey);
+        seatsContainer.appendChild(seat);
+      }
+    }
+
+    function markSeatsInRange() {
+      if (firstSelectedKey && lastSelectedKey) {
+        const seats = document.getElementsByClassName('seat');
+        const firstSeatKey = parseInt(firstSelectedKey);
+        const lastSeatKey = parseInt(lastSelectedKey);
+
+        for (let i = 0; i < seats.length; i++) {
+          const seat = seats[i];
+          const seatKey = parseInt(seat.getAttribute('data-seat-key'));
+          if (seatKey >= firstSeatKey && seatKey <= lastSeatKey) {
+            seat.classList.add('selected');
+          } else {
+            seat.classList.remove('selected');
+          }
+        }
+      }
+    }
+
+    function bookSelectedSeats() {
+      const selectedSeats = document.getElementsByClassName('selected');
+      if (selectedSeats.length === 0) {
+        alert('No seats selected. Please choose at least one seat.');
+        return;
+      }
+
+      for (let i = 0; i < selectedSeats.length; i++) {
+        const seat = selectedSeats[i];
+        const seatKey = parseInt(seat.getAttribute('data-seat-key'));
+        bookedSeats.add(seatKey);
+        seat.className = 'seat booked';
+        seat.removeEventListener('click', function () { });
+      }
+
+      alert('Selected seats booked successfully.');
+      // Change color of selected seats after booking
+      changeSelectedSeatsColor();
+      // Reset selected seats after booking
+      resetSelection();
+    }
+
+    function changeSelectedSeatsColor() {
+      const selectedSeats = document.getElementsByClassName('selected');
+      for (let i = 0; i < selectedSeats.length; i++) {
+        selectedSeats[i].style.backgroundColor = 'red';
+      }
+    }
+
+    function resetSelection() {
+      firstSelectedKey = null;
+      lastSelectedKey = null;
+      const selectedSeats = document.getElementsByClassName('selected');
+      while (selectedSeats.length > 0) {
+        selectedSeats[0].classList.remove('selected');
+      }
+    }
+
+    // Create seats when the page loads
+    createSeats();
+
+    // Add event listener to the book button
+    const bookButton = document.getElementById('book-btn');
+    bookButton.addEventListener('click', bookSelectedSeats);
+  </script>
 </body>
 
 </html>
